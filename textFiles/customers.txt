@@ -1,14 +1,15 @@
-Id:01
-Name: Dinushi Ranasinghe
-Contact No: 0742345817
-Address: 7 The Wades,Hatfield
+                ***********************************************
+                * Weekend Fitness Club - Registered Customers *
+                ***********************************************
 
-Id:02
-Name: Pasindu Amarasinghe
-Contact No: 0723459872
-Address: 3 Short Lane,Bricket Wood
-
-Id:03
-Name: Dushan Asanka
-Contact No: 0782345678
-Address: 44 Penlinkan, Liverpool
+|--------------------------------------------------------------------------------------|
+| Customer Id    | Customer Name        | Contact Number | Address                     |
+|--------------------------------------------------------------------------------------|
+|   01           | Dinushi Ranasinghe   | 0742345817     | 7 The Wades,Hatfield        |
+|--------------------------------------------------------------------------------------|
+|   02           | Pasindu Amarasinghe  | 0723459872     | 3 Short Lane,Bricket Wood   |
+|--------------------------------------------------------------------------------------|
+|   03           | Dushan Asanka        | 0782345678     | 44 Penlinkan, Liverpool     |
+|--------------------------------------------------------------------------------------|
+|   04           | Jack Belgimin        | 0743465738     | 12 The Wades,Hatfield       |
+|--------------------------------------------------------------------------------------|

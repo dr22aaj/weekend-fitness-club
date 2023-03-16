@@ -11,7 +11,7 @@ public class PrintMain {
     }
     public static void printMenu() {
         int inputNumber;
-        System.out.println("##~~~~~~~~~~~~~~~~~~~~~ MENU ~~~~~~~~~~~~~~~~~~~##");
+        System.out.println("##--------------------- MENU --------------------##");
         System.out.println("");
         System.out.println("[1].Create Booking ");
         System.out.println("[2].Edit Booking ");
@@ -22,7 +22,7 @@ public class PrintMain {
         System.out.println("[7].Print Report ");
         System.out.println("[8].View Customers ");
         System.out.println("[9].Exit ");
-        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+        System.out.println("-----------------------------------------------------");
 
         try {
             System.out.println("Please enter the number which you need to proceed. ");
@@ -79,7 +79,7 @@ public class PrintMain {
                     case 8:
                         //View Customers
                         if (inputNumber == 8) {
-                            //Customer.readfile();
+                            Customer.readfile();
                         }
                         break;
                     case 9:
