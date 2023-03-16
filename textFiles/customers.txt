@@ -1,0 +1,14 @@
+Id:01
+Name: Dinushi Ranasinghe
+Contact No: 0742345817
+Address: 7 The Wades,Hatfield
+
+Id:02
+Name: Pasindu Amarasinghe
+Contact No: 0723459872
+Address: 3 Short Lane,Bricket Wood
+
+Id:03
+Name: Dushan Asanka
+Contact No: 0782345678
+Address: 44 Penlinkan, Liverpool
