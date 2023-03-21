@@ -2,6 +2,7 @@ package com.coursework.wfc;
 import java.util.Scanner;
 
 public class PrintMain {
+    // Initialize Scanner object
     static Scanner console = new Scanner(System.in);
     public static void main(String[] args) {
         System.out.println("**************************************************");
@@ -11,6 +12,7 @@ public class PrintMain {
     }
     public static void printMenu() {
         int inputNumber;
+        String inputType;
         System.out.println("##--------------------- MENU --------------------##");
         System.out.println("");
         System.out.println("[1].Create Booking ");
@@ -61,10 +63,13 @@ public class PrintMain {
                         inputNumber = Integer.parseInt(console.next());
 
                         if (inputNumber == 12) {
-                            Fitness_Lessons.readfile(inputNumber);
+                            System.out.println("Which session do you want to view? (zumba/yoga/spin/bodysculpt/all)");
+                            inputType = console.next().toLowerCase();
+                            Fitness_Lessons.readSessionFile(inputNumber,inputType);
                         } else if (inputNumber == 11) {
-                            Fitness_Lessons.readfile(inputNumber);
-
+                            System.out.println("Which day you want to view? (saturday/sunday/both)");
+                            inputType = console.next().toLowerCase();
+                            Fitness_Lessons.readSessionFile(inputNumber,inputType);
                         }
                         break;
                     case 7:
@@ -83,7 +88,7 @@ public class PrintMain {
                     case 8:
                         //View Customers
                         if (inputNumber == 8) {
-                            Customer.readfile();
+                            Customer.readCustomerFile();
                         }
                         break;
                     case 9:
@@ -108,6 +113,8 @@ public class PrintMain {
             System.out.println("------------------------------------");
             printMenu();
         }
+        // closing the scanner stream
+        console.close();
     }
     public static void test(){
 
