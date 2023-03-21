@@ -3,23 +3,13 @@ package com.coursework.wfc;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Scanner;
 
 public class Customer {
-    private int id;
-    private String customerName;
-    private int contactNumber;
-    private String address;
-
-    //Constructor
-    public Customer(int id, String customerName, int contactNumber, String address) {
-        this.id = id;
-        this.customerName = customerName;
-        this.contactNumber = contactNumber;
-        this.address = address;
-    }
+    static Scanner console = new Scanner(System.in);
 
     //Read data from the text file
-    public static void readfile(){
+    public static void readCustomerFile(){
         try {
             String filePath= "textFiles\\customers.txt";
             FileReader reader = new FileReader(filePath);
@@ -29,6 +19,12 @@ public class Customer {
                 data = reader.read();
             }
             reader.close();
+            System.out.println();
+            System.out.println("Do you want to continue? (y/n) ");
+            String rst=console.next().toLowerCase();
+            if(rst.equals("y")){
+                PrintMain.printMenu();
+            }
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -37,28 +33,4 @@ public class Customer {
         }
     }
 
-    public int getId() {
-        return id;
-    }
-    public void setId(int id) {
-        this.id = id;
-    }
-    public String getCustomerName() {
-        return customerName;
-    }
-    public void setCustomerName(String customerName) {
-        this.customerName = customerName;
-    }
-    public int getContactNumber() {
-        return contactNumber;
-    }
-    public void setContactNumber(int contactNumber) {
-        this.contactNumber = contactNumber;
-    }
-    public String getAddress() {
-        return address;
-    }
-    public void setAddress(String address) {
-        this.address = address;
-    }
 }
