@@ -7,13 +7,39 @@ import java.util.Scanner;
 
 public class Fitness_Lessons {
     static Scanner console = new Scanner(System.in);
-    public static void readfile(int type){
+    public static void readSessionFile(int type, String inputType){
         try {
-            String filePath= "";
+            String filePath;
+
             if (type == 11)
-                filePath = "textFiles\\viewSessionsBySessionType.txt";
+                switch (inputType) {
+                    case "saturday":
+                        filePath = "textFiles\\saturday.txt";
+                        break;
+                    case "sunday":
+                        filePath = "textFiles\\sunday.txt";
+                        break;
+                    default:
+                        filePath = "textFiles\\viewSessionsByDate.txt";
+                }
+
             else {
-                filePath = filePath= "textFiles\\viewSessionsByDate.txt";
+                switch (inputType) {
+                    case "zumba":
+                        filePath = "textFiles\\zumba.txt";
+                        break;
+                    case "yoga":
+                        filePath = "textFiles\\yoga.txt";
+                        break;
+                    case "spin":
+                        filePath = "textFiles\\spin.txt";
+                        break;
+                    case "bodysculpt":
+                        filePath = "textFiles\\bodusculpt.txt";
+                        break;
+                    default:
+                        filePath = "textFiles\\viewSessionsBySessionType.txt";
+                }
             }
             FileReader reader = new FileReader(filePath);
             int data = reader.read();

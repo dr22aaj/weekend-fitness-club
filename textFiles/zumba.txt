@@ -1,0 +1,17 @@
+	TIME TABLE for Zumba Session
+--------------------------------------------------
+
+**************** Prize Per Week £12***************
+
+--------------------------------------------------
+| Week      | Day      |  Group | Time            |
+|-------------------------------------------------|
+| Week 1    | Saturday |  G1    | 08.00am-09.00am |
+| Week 2    | Saturday |  G1    | 08.00am-09.00am |
+| Week 3    | Saturday |  G1    | 08.00am-09.00am |
+| Week 4    | Saturday |  G1    | 08.00am-09.00am |
+| Week 5    | Saturday |  G1    | 08.00am-09.00am |
+| Week 6    | Saturday |  G1    | 08.00am-09.00am |
+| Week 7    | Saturday |  G1    | 08.00am-09.00am |
+| Week 8    | Saturday |  G1    | 08.00am-09.00am |
+|-------------------------------------------------|
