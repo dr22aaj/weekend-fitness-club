@@ -42,7 +42,7 @@ public class PrintMain {
                         break;
                     case 3:
                         //Cancel Bookings
-                         //Bookings.cancelBooking();
+                         Bookings.cancelBooking();
                         break;
                     case 4:
                         //Give Feedback

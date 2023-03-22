@@ -1,4 +1,10 @@
-BK01,dinushi,gp1,saturday,1
-BK02,dushan,gp2,saturday,1
-BK03,pasindu,gp3,sunday,2
-BK05,Amila,gp3,sunday,1
+BK01,CUS001,dinushi,gp1,saturday,1
+BK02,CUS002,dushan,gp2,saturday,1
+BK03,CUS003,pasindu,gp3,sunday,2
+BK05,CUS004,amila,gp3,sunday,2
+BK06,CUS005,kaml,gp3,sunday,2
+BK07,CUS006,ann,gp3,sunday,2
+BK08,CUS007,jazz,gp3,sunday,2
+BK09,CUS008,wotson,gp3,sunday,1
+BK010,CUS002,dushan,gp3,sunday,2
+BK011,CUS009,nnnd,gp4,sunday,2

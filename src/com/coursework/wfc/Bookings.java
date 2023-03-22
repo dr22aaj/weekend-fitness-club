@@ -8,25 +8,27 @@ public class Bookings {
     // attributes
     public static int id;
     public static String customerName;
+    public static String customerNo;
     public static String group;
     public static String day;
     public static String week;
     public static String bookingId;
 
     //Constructor
-    public Bookings(int id , String customerName,String group, String day, String week){
+    public Bookings(int id ,String customerNo, String customerName,String group, String day, String week){
         this.id=id;
         this.customerName=customerName;
         this.group=group;
         this.day=day;
         this.week=week;
+        this.customerNo=customerNo;
     }
     public static String getBookingData(){
-        return   bookingId +"," + customerName +"," + group +"," +day  +"," +week ;
+        return   bookingId +"," + customerNo +"," + customerName +"," + group +"," +day  +"," +week ;
     }
 
     public static String getBookingDataN(){
-        return   "Booking ID:" + id  + " Customer Name:" + customerName + " Group:"+ group + " Day:" + day + " Week:" +week ;
+        return   "Booking ID:" + id  + " Customer No:" + customerNo + " Customer Name:" + customerName + " Group:"+ group + " Day:" + day + " Week:" +week ;
     }
 
     //view booking data
@@ -59,6 +61,8 @@ public class Bookings {
         System.out.println("Enter booking id :  ");
         id=console.nextInt();
         bookingId = "BK0"+ id;
+        System.out.println("Enter customer number :");
+        customerNo=console.next();
         System.out.println("Enter customer name :");
         customerName=console.next();
         System.out.println("Enter the selected date (saturday/sunday) :");
@@ -99,7 +103,7 @@ public class Bookings {
     public static void editBookingDetails(){
         String editGroupId ="";
         System.out.println("Please enter booking id:  ");
-        String editBookingId=console.next().toLowerCase();
+        String editBookingId=console.next().toUpperCase();
         System.out.println("Enter the selected date (saturday/sunday) :");
         String editDay=console.next().toLowerCase();
         if(editDay.equals("saturday")){
@@ -124,6 +128,7 @@ public class Bookings {
         File oldFile = new File(filepath);
         File newFile = new File(tempFile);
         String Id;
+        String cusNo;
         String cusName;
         String group;
         String day;
@@ -139,18 +144,19 @@ public class Bookings {
 
             while (x.hasNext()){
                 Id = x.next();
+                cusNo = x.next();
                 cusName = x.next();
                 group = x.next();
                 day = x.next();
                 week = x.next();
 
                 if(Id.equals(editBookingId)){
-                    pw.print(editBookingId + "," + cusName + "," + editGroupId + "," + editDay+ "," + editWeek+ "\n");
+                    pw.print(editBookingId + "," + cusNo + "," + cusName + "," + editGroupId + "," + editDay+ "," + editWeek+ "\n");
                     boolFound=true;
 
                 }
                 else{
-                    pw.print(Id + "," + cusName + "," + group + "," + day+ "," + week+ "\n");
+                    pw.print(Id + "," + cusNo + "," + cusName + "," + group + "," + day+ "," + week+ "\n");
                 }
             }
             x.close();
@@ -181,5 +187,60 @@ public class Bookings {
         }
     }
 
+    //delete the insert booking data from the booking text file
+    public static void cancelBooking(){
+        System.out.println("Please enter booking id you need to cancel:  ");
+        String cancelBookingId =console.next().toUpperCase();
 
+        String tempFile="textFiles\\temp.txt";
+        String filepath="textFiles\\bookings.txt";
+        File oldFile = new File(filepath);
+        File newFile = new File(tempFile);
+        String Id; String cusNo; String cusName; String group; String day; String week;
+
+        try {
+            FileWriter fw = new FileWriter(tempFile, true);
+            BufferedWriter bw = new BufferedWriter(fw);
+            PrintWriter pw = new PrintWriter(bw);
+
+            Scanner x = new Scanner(new File(filepath));
+            x.useDelimiter("[,\n]");
+
+            while (x.hasNext()){
+                Id = x.next();
+                cusNo = x.next();
+                cusName = x.next();
+                group = x.next();
+                day = x.next();
+                week = x.next();
+
+                if(!Id.equals(cancelBookingId)){
+                    pw.print(Id + "," + cusNo + "," + cusName + "," + group + "," + day+ "," + week + "\n");
+                }
+            }
+            x.close();
+            pw.flush();
+            pw.close();
+            oldFile.delete();
+            File dump = new File(filepath);
+            newFile.renameTo(dump);
+
+            System.out.println("Booking details cancelled successfully.");
+            System.out.println();
+            PrintMain.printMenu();
+
+        }catch (Exception e){
+            System.out.println("---Error---");
+        }
+        // closing the scanner stream
+        console.close();
+    }
+
+    //validate number of customers per each session.
+    //maximum number of customers should be 5
+    public Boolean validateCusCount(){
+        boolean isExceed = false;
+
+        return false;
+    }
 }
