@@ -44,14 +44,9 @@ public class PrintMain {
                         //Cancel Bookings
                          Bookings.cancelBooking();
                         break;
-                    case 4:
-                        //Give Feedback
-                        //TODO:
-                        test();
-                        break;
-                    case 5:
-                        //Update Attendance
-                        test();
+                    case 4, 5:
+                        //Give Feedback and Attendance
+                        Feedback.updateAttendanceAndFeedback();
                         break;
                     case 6:
                         //View Sessions
