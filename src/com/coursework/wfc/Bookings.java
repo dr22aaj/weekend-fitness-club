@@ -6,7 +6,6 @@ import java.util.Scanner;
 public class Bookings {
     static Scanner console = new Scanner(System.in);
     // attributes
-    public static int id;
     public static String customerName;
     public static String customerNo;
     public static String group;
@@ -15,8 +14,8 @@ public class Bookings {
     public static String bookingId;
 
     //Constructor
-    public Bookings(int id ,String customerNo, String customerName,String group, String day, String week){
-        this.id=id;
+    public Bookings(String bookingId ,String customerNo, String customerName,String group, String day, String week){
+        this.bookingId=bookingId;
         this.customerName=customerName;
         this.group=group;
         this.day=day;
@@ -28,7 +27,7 @@ public class Bookings {
     }
 
     public static String getBookingDataN(){
-        return   "Booking ID:" + id  + " Customer No:" + customerNo + " Customer Name:" + customerName + " Group:"+ group + " Day:" + day + " Week:" +week ;
+        return   "Booking ID:" + bookingId  + " Customer No:" + customerNo + " Customer Name:" + customerName + " Group:"+ group + " Day:" + day + " Week:" +week ;
     }
 
     //view booking data
@@ -58,9 +57,7 @@ public class Bookings {
     //save the booking data in booking text file
     public static void createBooking() {
         String filename = "textFiles\\bookings.txt";
-        System.out.println("Enter booking id :  ");
-        id=console.nextInt();
-        bookingId = "BK0"+ id;
+        bookingId = generateBookingNo();
         System.out.println("Enter customer number :");
         customerNo=console.next();
         System.out.println("Enter customer name :");
@@ -77,14 +74,13 @@ public class Bookings {
 
         System.out.println("Enter the selected week (1,2,3,4,5,6,7,8) :");
         week=console.next();
-       // Bookings booking=new Bookings(id,customerName,group,day,week);
 
         try {
             FileWriter writer=new FileWriter(filename,true);
             writer.append(Bookings.getBookingData());
             writer.append("\n");
             writer.close();
-            System.out.println("Booking added successfully!");
+            System.out.println("Booking added successfully! Your booking number is: " + bookingId);
             System.out.println();
             System.out.println("Do you need to add another booking? (y/n)");
             String rst=console.next().toLowerCase();
@@ -102,7 +98,7 @@ public class Bookings {
     //get the booking details that need to be change
     public static void editBookingDetails(){
         String editGroupId ="";
-        System.out.println("Please enter booking id:  ");
+        System.out.println("Please enter booking number:  ");
         String editBookingId=console.next().toUpperCase();
         System.out.println("Enter the selected date (saturday/sunday) :");
         String editDay=console.next().toLowerCase();
@@ -177,7 +173,7 @@ public class Bookings {
             }
             else{
                 System.out.println("Booking details updated successfully.");
-                System.out.println("Booking Id: " + editBookingId );
+                System.out.println("Booking Number: " + editBookingId );
                 System.out.println();
                 PrintMain.printMenu();
             }
@@ -189,7 +185,7 @@ public class Bookings {
 
     //delete the insert booking data from the booking text file
     public static void cancelBooking(){
-        System.out.println("Please enter booking id you need to cancel:  ");
+        System.out.println("Please enter booking number you need to cancel:  ");
         String cancelBookingId =console.next().toUpperCase();
 
         String tempFile="textFiles\\temp.txt";
@@ -243,4 +239,34 @@ public class Bookings {
 
         return false;
     }
+
+    //Generate Booking No.
+    public static String generateBookingNo() {
+        String bookingNo = null;
+        String filepath="textFiles\\bookings.txt";
+        String bookingId = null;
+        String cusNo,cusName,group,day,week;
+
+        try {
+            Scanner x = new Scanner(new File(filepath));
+            x.useDelimiter("[,\n]");
+
+            while (x.hasNext()) {
+                bookingId = x.next();
+                cusNo = x.next();
+                cusName = x.next();
+                group = x.next();
+                day = x.next();
+                week = x.next();
+            }
+            bookingId = bookingId.substring(2,5);
+            int newId = Integer.parseInt(bookingId)+1;
+            bookingNo = "BK0" + newId;
+
+        }catch (Exception e){
+            System.out.println("---Error---");
+        }
+        return bookingNo;
+    }
+
 }
