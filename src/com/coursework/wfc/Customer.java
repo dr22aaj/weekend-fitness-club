@@ -1,5 +1,6 @@
 package com.coursework.wfc;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -33,4 +34,33 @@ public class Customer {
         }
     }
 
+    //TODO: Validate entered customer number is valid or not
+    public static boolean validateCustomerNo(String customerNo){
+        boolean isValidCustomer = false;
+        try {
+            String filepath = "textFiles\\customers.txt";
+            Scanner x = new Scanner(new File(filepath));
+            x.useDelimiter("[,\n]");
+            String Id = null, cusName, groupNo, isAttend = null,feedback, session = null, attenging = null;
+            String rating;
+
+            while (x.hasNext()) {
+                Id = x.next();
+                cusName = x.next();
+                session = x.next();
+                isAttend = x.next();
+                feedback = x.next();
+                rating = x.next();
+
+                if (Id.equals(customerNo)) {
+                    isValidCustomer = true;
+                    break;
+                }
+            }
+        } catch (
+                IOException e) {
+            System.out.println(e);
+        }
+        return isValidCustomer;
+    }
 }

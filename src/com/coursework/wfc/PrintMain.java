@@ -111,7 +111,5 @@ public class PrintMain {
         // closing the scanner stream
         console.close();
     }
-    public static void test(){
 
-    }
 }
