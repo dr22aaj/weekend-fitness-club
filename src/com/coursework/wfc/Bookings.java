@@ -6,12 +6,12 @@ import java.util.Scanner;
 public class Bookings {
     static Scanner console = new Scanner(System.in);
     // attributes
-    public static String customerName;
-    public static String customerNo;
-    public static String group;
-    public static String day;
-    public static String week;
-    public static String bookingId;
+    private static String customerName;
+    private static String customerNo;
+    private static String group;
+    private static String day;
+    private static String week;
+    private static String bookingId;
 
     //Constructor
     public Bookings(String bookingId ,String customerNo, String customerName,String group, String day, String week){

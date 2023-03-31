@@ -1,3 +1,9 @@
-BK012,kamal,gp3,y,good,3
-BK002,wotson,gp3,y,ddd,2
-BK003,dinushi,gp4,y,ddd,4
+BK012,dushan,gp1,7,y,good,3
+BK002,dushan,gp1,2,y,ddd,2
+BK003,pasindu,gp3,2,y,ddd,5
+BK005,jack,gp3,2,y,xxxx,3
+BK006,kaml,gp3,2,y,yyyy,5
+BK007,ann,gp3,2,y,gggg,1
+BK016,kaml,gp4,8,y,kkkk,3
+BK017,ann,gp2,8,y,mmm,3
+BK018,jazz,gp4,5,y,bbbb,5

@@ -6,21 +6,23 @@ import java.util.Scanner;
 public class Feedback {
     static Scanner console = new Scanner(System.in);
 
-    public static String feedback;
-    public static String isAttend;
-    public static int rating;
-    public static String bookingNo;
-    public static String group;
-    public static String customerName;
+    private static String feedback;
+    private static String isAttend;
+    private static int rating;
+    private static String bookingNo;
+    private static String group;
+    private static String customerName;
+    private static String week;
 
-    public Feedback(String feedback, String isAttend, int rating) {
+    public Feedback(String feedback, String isAttend, int rating, String week) {
         this.feedback = feedback;
         this.isAttend = isAttend;
         this.rating = rating;
+        this.week = week;
     }
 
     public static String getFeedBackData(){
-        return   bookingNo +"," + customerName +"," + group +"," + isAttend +"," +feedback  +"," +rating ;
+        return   bookingNo +"," + customerName +"," + group +"," + week +"," + isAttend +"," +feedback  +"," +rating ;
     }
 
     public static void updateAttendanceAndFeedback(){
@@ -34,7 +36,7 @@ public class Feedback {
            String filepath="textFiles\\bookings.txt";
            Scanner x = new Scanner(new File(filepath));
            x.useDelimiter("[,\n]");
-           String Id; String cusNo, cusName, groupNo, day, week, validGroup = null,validCus = null;
+           String Id; String cusNo, cusName, groupNo, day, week, validGroup = null,validCus = null, validWeek=null;
 
            while (x.hasNext()){
                Id = x.next();
@@ -48,6 +50,7 @@ public class Feedback {
                    validGroup = groupNo;
                    validCus = cusName;
                    isValidBookingNo=true;
+                   validWeek=week;
                    break;
                }
            }
@@ -85,34 +88,45 @@ public class Feedback {
                        updateAttendanceAndFeedback();
                    }
                    else {
-                       System.out.println("Did you attended for the session? (y/n)  ");
-                       isAttend=console.next().toLowerCase();
-
-                       if(isAttend.equals("y")){
-                           System.out.println("Please enter your feedback:  ");
-                           feedback =console.next().toLowerCase();
-                           System.out.println("Please enter your rating from 1 to 5 (1: Very dissatisfied, 2: Dissatisfied, 3: Ok, 4: Satisfied, 5: Very Satisfied):  ");
-                           rating=console.nextInt();
-                       }
-                       else {
-                           isAttend = "n";
-                           feedback="-";
-                           rating=0;
-                       }
-                       //write the attendance, feedback and rating into attendanceAndFeedback text file
-                       String filename = "textFiles\\attendanceAndFeedback.txt";
-                       FileWriter writer=new FileWriter(filename,true);
-                       writer.append(getFeedBackData());
-                       writer.append("\n");
-                       writer.close();
-                       System.out.println("Attendance and Feedback added successfully! ");
-                       System.out.println();
-                       System.out.println("Do you need to update another Attendance and Feedback? (y/n)");
-                       String rst=console.next().toLowerCase();
-                       if(rst.equals("y")){
+                       System.out.println("Please enter the week you attended:(1/2/3/4/5/6/7/8)  ");
+                       week=console.next();
+                       //validated entered week is correct according to the booking no.
+                       if(!week.equals(validWeek)){
+                           System.out.println("Entered week is not relevant to the booking number! ");
+                           System.out.println("------------------------------------");
                            updateAttendanceAndFeedback();
                        }
-                       else PrintMain.printMenu();
+                       else {
+                           System.out.println("Did you attended for the session? (y/n)  ");
+                           isAttend=console.next().toLowerCase();
+
+                           if(isAttend.equals("y")){
+                               System.out.println("Please enter your feedback:  ");
+                               feedback =console.next().toLowerCase();
+                               System.out.println("Please enter your rating from 1 to 5 (1: Very dissatisfied, 2: Dissatisfied, 3: Ok, 4: Satisfied, 5: Very Satisfied):  ");
+                               rating=console.nextInt();
+                           }
+                           else {
+                               isAttend = "n";
+                               feedback="-";
+                               rating=0;
+                               week="0";
+                           }
+                           //write the attendance, feedback and rating into attendanceAndFeedback text file
+                           String filename = "textFiles\\attendanceAndFeedback.txt";
+                           FileWriter writer=new FileWriter(filename,true);
+                           writer.append(getFeedBackData());
+                           writer.append("\n");
+                           writer.close();
+                           System.out.println("Attendance and Feedback added successfully! ");
+                           System.out.println();
+                           System.out.println("Do you need to update another Attendance and Feedback? (y/n)");
+                           String rst=console.next().toLowerCase();
+                           if(rst.equals("y")){
+                               updateAttendanceAndFeedback();
+                           }
+                           else PrintMain.printMenu();
+                       }
                    }
                }
 
