@@ -81,10 +81,12 @@ public class PrintMain {
                             {
                                 System.out.println("Which month you want to view data? (1/2) ");
                                 inputType = console.next();
-                                Common.getNumOfCustomers(inputType);
+                                Report.getNumOfCustomers(inputType);
                             }
                             if(inputNumber == 14){
-                                //TODO:
+                                System.out.println("Which month you want to view data? (1/2) ");
+                                inputType = console.next();
+                                Report.calIncomePerLesson(inputType);
                             }
                         }
                         break;
