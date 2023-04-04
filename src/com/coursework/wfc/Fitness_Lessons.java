@@ -1,3 +1,8 @@
+/*
+Created By: Dinushi Ranasinghe
+Created Date: 21/March/2023
+Description: Fitness Lesson related methods are handel under this class
+**/
 package com.coursework.wfc;
 
 import java.io.FileNotFoundException;
@@ -5,9 +10,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Scanner;
 
-/*
-Fitness Lesson related methods are handel under this class
-**/
 public class Fitness_Lessons {
     static Scanner console = new Scanner(System.in);
     protected static void readSessionFile(int type, String inputType){

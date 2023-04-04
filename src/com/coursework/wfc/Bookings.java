@@ -1,11 +1,15 @@
+/*
+Created By: Dinushi Ranasinghe
+Created Date: 21/March/2023
+Description: This is the booking class of the WFC programme.
+             Booking related all functionality are handel under this class
+             (create booking, edit booking, view booking, cancel booking)
+**/
 package com.coursework.wfc;
 
 import java.io.*;
 import java.util.Scanner;
 
-/*
-Booking related methods are handel under this class
-**/
 public class Bookings {
     static Scanner console = new Scanner(System.in);
     // attributes

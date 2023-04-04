@@ -1,3 +1,9 @@
+/*
+Created By: Dinushi Ranasinghe
+Created Date: 13/March/2023
+Description: This is the main class of the WFC programme.
+             Menu is design under this class.
+**/
 package com.coursework.wfc;
 import java.util.Scanner;
 

@@ -1,3 +1,8 @@
+/*
+Created By: Dinushi Ranasinghe
+Created Date: 16/March/2023
+Description: Customer related methods are handel under this class
+**/
 package com.coursework.wfc;
 
 import java.io.File;
@@ -6,9 +11,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Scanner;
 
-/*
-Customer related methods are handel under this class
-**/
 public class Customer {
     static Scanner console = new Scanner(System.in);
 

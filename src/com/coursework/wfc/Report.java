@@ -1,3 +1,9 @@
+/*
+Created By: Dinushi Ranasinghe
+Created Date: 30/March/2023
+Description: This is the main class of the Report generation.
+             Relevant report class will be calling from this class.
+**/
 package com.coursework.wfc;
 
 import java.io.File;
@@ -11,10 +17,6 @@ enum LessonPrice{
         this.price = price;
     }
 }
-/*
-This is the main class of the Report generation.
-Relevant report class will be calling from this class.
-**/
 public class Report {
     static Scanner console = new Scanner(System.in);
     private static String customerName;

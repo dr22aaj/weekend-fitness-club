@@ -1,3 +1,9 @@
+/*
+Created By: Dinushi Ranasinghe
+Created Date: 22/March/2023
+Description: All the customer feedback/attendance related methods are handel
+             under this class
+**/
 package com.coursework.wfc;
 
 import java.io.*;
@@ -5,7 +11,6 @@ import java.util.Scanner;
 
 public class Feedback {
     static Scanner console = new Scanner(System.in);
-
     private static String feedback;
     private static String isAttend;
     private static int rating;

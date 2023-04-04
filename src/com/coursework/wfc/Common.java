@@ -1,11 +1,14 @@
+/*
+Created By: Dinushi Ranasinghe
+Created Date: 24/March/2023
+Description: All the common validation related methods are handel
+             under this class
+**/
 package com.coursework.wfc;
 
 import java.io.*;
 import java.util.Scanner;
 
-/* All the common validation related methods are handel
-*  under this class
-* */
 public class Common {
     private static String customerName;
     private static String customerNo;
