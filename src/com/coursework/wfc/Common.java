@@ -118,7 +118,7 @@ public class Common {
     protected static String getCustomerNo(String bookingNo){
         String cusNo="";
         try {
-            Scanner x = new Scanner(new File(filepath));
+            Scanner x = new Scanner(new File(filepath)); //read data from file
             x.useDelimiter("[,\n]");
             String Id;
 
@@ -130,12 +130,12 @@ public class Common {
                 day = x.next();
                 week = x.next();
 
-                if (bookingId.equals(bookingNo.toUpperCase())) {
+                if (bookingId.equals(bookingNo.toUpperCase())) { // check the booking number is existing in data file
                     cusNo = customerNo;
                     break;
                 }
             }
-            x.close();
+            x.close(); //close the scanner
         } catch (
                 IOException e) {
             System.out.println(e);
@@ -148,71 +148,54 @@ public class Common {
     public static String getCustomerName() {
         return customerName;
     }
-
     public static void setCustomerName(String customerName) {
         Common.customerName = customerName;
     }
-
     public static String getCustomerNo() {
         return customerNo;
     }
-
     public static void setCustomerNo(String customerNo) {
         Common.customerNo = customerNo;
     }
-
     public static String getGroup() {
         return group;
     }
-
     public static void setGroup(String group) {
         Common.group = group;
     }
-
     public static String getDay() {
         return day;
     }
-
     public static void setDay(String day) {
         Common.day = day;
     }
-
     public static String getWeek() {
         return week;
     }
-
     public static void setWeek(String week) {
         Common.week = week;
     }
-
     public static String getBookingId() {
         return bookingId;
     }
-
     public static void setBookingId(String bookingId) {
         Common.bookingId = bookingId;
     }
-
     public static String getFeedback() {
         return feedback;
     }
-
     public static void setFeedback(String feedback) {
         Common.feedback = feedback;
     }
-
     public static String getAttended() {
         return attended;
     }
-
     public static void setAttended(String attended) {
         Common.attended = attended;
     }
-
     public static String getRate() {
         return rate;
     }
-
     public static void setRate(String rate) {
         Common.rate = rate;
     }

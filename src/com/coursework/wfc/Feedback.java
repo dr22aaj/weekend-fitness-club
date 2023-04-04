@@ -141,6 +141,7 @@ public class Feedback {
         console.close();
     }
 
+    //Validate feedback is already given for the entered booking number.
     public static boolean isFeedbackGiven(String bookingNo) throws FileNotFoundException {
         boolean isAttedanceUpdate = false;
 
