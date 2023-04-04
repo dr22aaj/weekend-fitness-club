@@ -12,7 +12,9 @@ public class Feedback {
     private static String bookingNo;
     private static String group;
     private static String customerName;
+    private static String cusNo;
     private static String week;
+    private static String day;
 
     public Feedback(String feedback, String isAttend, int rating, String week) {
         this.feedback = feedback;
@@ -36,21 +38,21 @@ public class Feedback {
            String filepath="textFiles\\bookings.txt";
            Scanner x = new Scanner(new File(filepath));
            x.useDelimiter("[,\n]");
-           String Id; String cusNo, cusName, groupNo, day, week, validGroup = null,validCus = null, validWeek=null;
+           String Id; String validGroup = null,validCus = null, validWeek=null;
 
            while (x.hasNext()){
                Id = x.next();
                cusNo = x.next();
-               cusName = x.next();
-               groupNo = x.next();
+               customerName = x.next();
+               group = x.next();
                day = x.next();
                week = x.next();
 
                if(Id.equals(bookingNo)){
-                   validGroup = groupNo;
-                   validCus = cusName;
+                   validGroup = getGroup();
+                   validCus = getCustomerName();
                    isValidBookingNo=true;
-                   validWeek=week;
+                   validWeek=getWeek();
                    break;
                }
            }
@@ -146,16 +148,10 @@ public class Feedback {
         String filepath="textFiles\\attendanceAndFeedback.txt";
         Scanner x = new Scanner(new File(filepath));
         x.useDelimiter("[,\n]");
-        String bookingNum; //,customerName,group,isAttend,feedback,rating;
+        String bookingNum;
 
         while (x.hasNext()){
             bookingNum = x.next();
-            /*customerName = x.next();
-            group = x.next();
-            isAttend = x.next();
-            feedback = x.next();
-            rating = x.next();
-            */
             if(bookingNum.equals(bookingNo)){
                 isAttedanceUpdate = true;
                 break;
@@ -183,5 +179,41 @@ public class Feedback {
     }
     public static void setRating(int rating) {
         Feedback.rating = rating;
+    }
+    public static String getBookingNo() {
+        return bookingNo;
+    }
+    public static void setBookingNo(String bookingNo) {
+        Feedback.bookingNo = bookingNo;
+    }
+    public static String getGroup() {
+        return group;
+    }
+    public static void setGroup(String group) {
+        Feedback.group = group;
+    }
+    public static String getCustomerName() {
+        return customerName;
+    }
+    public static void setCustomerName(String customerName) {
+        Feedback.customerName = customerName;
+    }
+    public static String getCusNo() {
+        return cusNo;
+    }
+    public static void setCusNo(String cusNo) {
+        Feedback.cusNo = cusNo;
+    }
+    public static String getWeek() {
+        return week;
+    }
+    public static void setWeek(String week) {
+        Feedback.week = week;
+    }
+    public static String getDay() {
+        return day;
+    }
+    public static void setDay(String day) {
+        Feedback.day = day;
     }
 }

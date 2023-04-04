@@ -5,9 +5,12 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Scanner;
 
+/*
+Fitness Lesson related methods are handel under this class
+**/
 public class Fitness_Lessons {
     static Scanner console = new Scanner(System.in);
-    public static void readSessionFile(int type, String inputType){
+    protected static void readSessionFile(int type, String inputType){
         try {
             String filePath;
 

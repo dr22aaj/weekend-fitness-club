@@ -38,7 +38,7 @@ public class PrintMain {
                         break;
                     case 2:
                         //Edit Bookings
-                         Bookings.editBookingDetails();
+                         Bookings.editBooking();
                         break;
                     case 3:
                         //Cancel Bookings

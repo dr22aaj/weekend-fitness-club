@@ -4,7 +4,7 @@ BK003,CUS003,pasindu,gp3,sunday,2
 BK005,CUS004,jack,gp3,sunday,2
 BK006,CUS005,kaml,gp3,sunday,2
 BK007,CUS006,ann,gp3,sunday,2
-BK008,CUS007,jazz,gp4,sunday,4
+BK008,CUS007,jazz,gp2,saturday,2
 BK009,CUS005,kaml,gp4,sunday,4
 BK010,CUS002,dushan,gp3,sunday,1
 BK011,CUS001,dinushi,gp4,sunday,6
@@ -16,3 +16,4 @@ BK017,CUS006,ann,gp2,saturday,8
 BK018,CUS007,jazz,gp4,sunday,5
 BK019,CUS005,kaml,gp1,saturday,5
 BK020,CUS002,dushan,gp3,sunday,7
+BK021,CUS002,dushan,gp2,saturday,3

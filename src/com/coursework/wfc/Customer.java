@@ -6,14 +6,18 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Scanner;
 
+/*
+Customer related methods are handel under this class
+**/
 public class Customer {
     static Scanner console = new Scanner(System.in);
 
+    static final String customerFilePath = "textFiles\\customers.txt";
+
     //Read data from the text file
-    public static void readCustomerFile(){
+    protected static void readCustomerFile(){
         try {
-            String filePath= "textFiles\\customers.txt";
-            FileReader reader = new FileReader(filePath);
+            FileReader reader = new FileReader(customerFilePath);
             int data = reader.read();
             while (data != -1){
                 System.out.print((char)data);
@@ -34,12 +38,11 @@ public class Customer {
         }
     }
 
-    //TODO: Validate entered customer number is valid or not
+    //Validate entered customer number is valid or not
     public static boolean validateCustomerNo(String customerNo){
         boolean isValidCustomer = false;
         try {
-            String filepath = "textFiles\\customers.txt";
-            Scanner x = new Scanner(new File(filepath));
+            Scanner x = new Scanner(new File(customerFilePath));
             x.useDelimiter("[,\n]");
             String Id = null, cusName, groupNo, isAttend = null,feedback, session = null, attenging = null;
             String rating;

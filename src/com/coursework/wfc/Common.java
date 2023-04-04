@@ -21,7 +21,7 @@ public class Common {
     static final String filepathA = "textFiles\\attendanceAndFeedback.txt";
 
     //Check whether booking number is already exist
-    public static boolean isBookingNoAlreadyExist(String bookingNo) {
+    protected static boolean isBookingNoAlreadyExist(String bookingNo) {
         boolean isExist = false;
         try {
             Scanner x = new Scanner(new File(filepath));
@@ -50,7 +50,7 @@ public class Common {
     }
 
     //validate customer already attended for booked session
-    public static boolean isValidateAttendance(String bookingNo) {
+    protected static boolean isValidateAttendance(String bookingNo) {
         boolean alreadyAttend = false;
         try {
             Scanner x = new Scanner(new File(filepathA));
@@ -61,6 +61,7 @@ public class Common {
             while (x.hasNext()) {
                 Id = x.next();
                 customerName = x.next();
+                group = x.next();
                 session = x.next();
                 isAttend = x.next();
                 feedback = x.next();
@@ -80,8 +81,9 @@ public class Common {
         return alreadyAttend;
     }
 
-    //validate duplicate bookings (customer trying to make more than one booking for same session in group (week,group) )
-    public static boolean validateDuplicateBookings(String groupNo, String session, String cusNo){
+    //validate duplicate bookings (customer trying to make more than one booking for same session
+    // in group (week,group) )
+    protected static boolean validateDuplicateBookings(String groupNo, String session, String cusNo){
         boolean isDuplicate = false;
         try {
             Scanner x = new Scanner(new File(filepath));
@@ -113,7 +115,7 @@ public class Common {
     }
 
     //Get the customer number for the given booking number
-    public static String getCustomerNo(String bookingNo){
+    protected static String getCustomerNo(String bookingNo){
         String cusNo="";
         try {
             Scanner x = new Scanner(new File(filepath));
