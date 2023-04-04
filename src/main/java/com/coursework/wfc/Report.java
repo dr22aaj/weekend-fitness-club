@@ -6,8 +6,6 @@ Description: This is the main class of the Report generation.
 **/
 package com.coursework.wfc;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.Scanner;
 
 enum LessonPrice{

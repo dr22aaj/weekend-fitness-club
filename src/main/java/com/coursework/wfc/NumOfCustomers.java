@@ -113,7 +113,7 @@ public class NumOfCustomers extends Report {
                             yogaRate = yogaRate + Integer.parseInt(getRate());
                         }
                         if(getGroup().equals("gp3")){
-                            spainRate =  + Integer.parseInt(getRate());
+                            spainRate = spainRate + Integer.parseInt(getRate());
                         }
                         if(getGroup().equals("gp4")){
                             bodysulRate = bodysulRate + Integer.parseInt(getRate());

@@ -84,7 +84,7 @@ public class CallIncomePerLesson extends Report {
             double dblBodyscult = bodysclptCount * LessonPrice.BODYSCULPT.price;
 
             //Find the highest income
-            double arr[] = {dblZum,dblYoga,dblSpin,dblBodyscult};
+            double[] arr = {dblZum,dblYoga,dblSpin,dblBodyscult};
             double maxAmt= arr[0];
             for (double i=0; i < arr.length; i++){
                 maxAmt = Math.max(maxAmt,arr[(int) i]);
@@ -103,15 +103,15 @@ public class CallIncomePerLesson extends Report {
             System.out.println("**************************************************");
             System.out.println("************ The Weekend Fitness Club ************");
             System.out.println("**************************************************");
-            System.out.println("");
+            System.out.println();
             System.out.println("************** Income on Saturdays ***************");
-            System.out.println("");
+            System.out.println();
             System.out.println("Total Income for Zumba:" + " " + dblZum + "£");
             System.out.println("Total Income for Yoga:" + " " + dblYoga + "£");
-            System.out.println("");
+            System.out.println();
 
             System.out.println("**************** Income on Sundays ***************");
-            System.out.println("");
+            System.out.println();
             System.out.println("Total Income for Spin:" + " " + dblSpin + "£");
             System.out.println("Total Income for Bodysculpt:" + " " + dblBodyscult + "£");
             System.out.println();

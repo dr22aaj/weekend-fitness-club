@@ -17,34 +17,20 @@ public class Fitness_Lessons {
             String filePath;
 
             if (type == 11)
-                switch (inputType) {
-                    case "saturday":
-                        filePath = "textFiles\\saturday.txt";
-                        break;
-                    case "sunday":
-                        filePath = "textFiles\\sunday.txt";
-                        break;
-                    default:
-                        filePath = "textFiles\\viewSessionsByDate.txt";
-                }
+                filePath = switch (inputType) {
+                    case "saturday" -> "textFiles\\saturday.txt";
+                    case "sunday" -> "textFiles\\sunday.txt";
+                    default -> "textFiles\\viewSessionsByDate.txt";
+                };
 
             else {
-                switch (inputType) {
-                    case "zumba":
-                        filePath = "textFiles\\zumba.txt";
-                        break;
-                    case "yoga":
-                        filePath = "textFiles\\yoga.txt";
-                        break;
-                    case "spin":
-                        filePath = "textFiles\\spin.txt";
-                        break;
-                    case "bodysculpt":
-                        filePath = "textFiles\\bodusculpt.txt";
-                        break;
-                    default:
-                        filePath = "textFiles\\viewSessionsBySessionType.txt";
-                }
+                filePath = switch (inputType) {
+                    case "zumba" -> "textFiles\\zumba.txt";
+                    case "yoga" -> "textFiles\\yoga.txt";
+                    case "spin" -> "textFiles\\spin.txt";
+                    case "bodysculpt" -> "textFiles\\bodusculpt.txt";
+                    default -> "textFiles\\viewSessionsBySessionType.txt";
+                };
             }
             FileReader reader = new FileReader(filePath);
             int data = reader.read();
