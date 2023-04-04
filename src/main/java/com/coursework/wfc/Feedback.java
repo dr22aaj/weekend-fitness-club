@@ -21,6 +21,9 @@ public class Feedback {
     private static String week;
     private static String day;
 
+    public Feedback(){
+
+    }
     public Feedback(String feedback, String isAttend, int rating, String week) {
         this.feedback = feedback;
         this.isAttend = isAttend;
