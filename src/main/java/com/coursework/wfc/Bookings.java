@@ -327,53 +327,58 @@ public class Bookings {
                     PrintMain.printMenu();
                 }
             }
-
-            //Validate if entered booking number is cancelled
-            boolean isCancelled = Common.isBookingNoCancelled(editBookingId);
-            if(isCancelled){
-                System.out.println("Entered booking number already cancelled!  ");
-                System.out.println("------------------------------------");
-                System.out.println();
-                System.out.println("Do you want to continue? (y/n) ");
-                String rst=console.next().toLowerCase();
-                if(rst.equals("y")){
-                    PrintMain.printMenu();
-                }else {
-                    System.out.println("Thank You & Have a Great Day!");
+            else
+            {   //Validate if entered booking number is cancelled
+                boolean isCancelled = Common.isBookingNoCancelled(editBookingId);
+                if(isCancelled){
+                    System.out.println("Entered booking number already cancelled!  ");
+                    System.out.println("------------------------------------");
+                    System.out.println();
+                    System.out.println("Do you want to continue? (y/n) ");
+                    String rst=console.next().toLowerCase();
+                    if(rst.equals("y")){
+                        PrintMain.printMenu();
+                    }else {
+                        System.out.println("Thank You & Have a Great Day!");
+                    }
+                }
+                else
+                {
+                    //Validate customer already booked for same session in group (week,group) )
+                    boolean isHaving = Common.validateDuplicateBookings(editGroupId,editWeek,customerNo);
+                    if(isHaving){
+                        System.out.println("Cannot edit. You have already booked for this session!");
+                        System.out.println();
+                        System.out.println("Do you need to edit another booking? (y/n)");
+                        String rst = console.next().toLowerCase();
+                        if (rst.equals("y")) {
+                            editBooking();
+                        } else{
+                            PrintMain.printMenu();
+                        }
+                    }
+                    //validate number of customers per each lesson (week) is exceeded or not
+                    boolean isExceeded = isExceedCusCount(editWeek,editGroupId);
+                    if(isExceeded){
+                        System.out.println("Cannot edit. Selected session is already full!");
+                        System.out.println();
+                        System.out.println("Do you need to edit the booking again? (y/n)");
+                        String rst = console.next().toLowerCase();
+                        if (rst.equals("y")) {
+                            editBooking();
+                        } else{
+                            PrintMain.printMenu();
+                        }
+                    }
+                    else
+                    {
+                        if(isExist && !isAttend && !isHaving && !isExceeded){
+                            editBooking(editBookingId, editGroupId,editDay,editWeek);
+                        }
+                    }
                 }
             }
 
-            //Validate customer already booked for same session in group (week,group) )
-            boolean isHaving = Common.validateDuplicateBookings(editGroupId,editWeek,customerNo);
-            if(isHaving){
-                System.out.println("Cannot edit. You have already booked for this session!");
-                System.out.println();
-                System.out.println("Do you need to edit another booking? (y/n)");
-                String rst = console.next().toLowerCase();
-                if (rst.equals("y")) {
-                    editBooking();
-                } else{
-                    PrintMain.printMenu();
-                }
-            }
-
-            //validate number of customers per each lesson (week) is exceeded or not
-            boolean isExceeded = isExceedCusCount(editWeek,editGroupId);
-            if(isExceeded){
-                System.out.println("Cannot edit. Selected session is already full!");
-                System.out.println();
-                System.out.println("Do you need to edit the booking again? (y/n)");
-                String rst = console.next().toLowerCase();
-                if (rst.equals("y")) {
-                    editBooking();
-                } else{
-                    PrintMain.printMenu();
-                }
-            }
-
-            if(isExist && !isAttend && !isHaving && !isExceeded){
-                editBooking(editBookingId, editGroupId,editDay,editWeek);
-           }
         console.close();
         } catch (NumberFormatException ex) {
             System.out.println("Error: Input value is not a number");
