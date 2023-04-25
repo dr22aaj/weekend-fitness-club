@@ -26,16 +26,17 @@ public class Report {
     private static String feedback;
     private static String attended;
     private static String rate;
-    static final String filepath = "textFiles\\bookings.txt";
-    static final String filepathA = "textFiles\\attendanceAndFeedback.txt";
+    private static String status;
+    static final String filepath = "C:\\textFiles\\bookings.txt";
+    static final String filepathA = "C:\\textFiles\\attendanceAndFeedback.txt";
 
     //call the number of customers per lesson on each day method
-    protected static void getNumOfCustomers(String month){
+    protected static void getNumOfCustomers(int month){
         NumOfCustomers.getNumOfCustomers(month);
     }
 
    // call the type of fitness lessons which has generated the highest income
-   protected static void calIncomePerLesson(String month){
+   protected static void calIncomePerLesson(int month){
         CallIncomePerLesson.calIncomePerLesson(month);
     }
 
@@ -109,5 +110,13 @@ public class Report {
 
     public static void setRate(String rate) {
         Report.rate = rate;
+    }
+
+    public static String getStatus() {
+        return status;
+    }
+
+    public static void setStatus(String status) {
+        Report.status = status;
     }
 }

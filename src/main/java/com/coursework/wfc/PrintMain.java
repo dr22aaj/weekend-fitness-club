@@ -18,16 +18,19 @@ public class PrintMain {
     }
     public static void printMenu() {
         int inputNumber;
-        String inputType;
+        int inputType;
+
         System.out.println("##--------------------- MENU --------------------##");
         System.out.println("");
         System.out.println("[1].Create Booking ");
+        System.out.println("(before creating the booking please view the " + System.lineSeparator() +
+                            "available sessions using menu id 6.) ");
         System.out.println("[2].Edit Booking ");
         System.out.println("[3].Cancel Booking ");
-        System.out.println("[4].Give Feedback ");
-        System.out.println("[5].Update Attendance ");
-        System.out.println("[6].View Session ");
-        System.out.println("[7].Print Report ");
+        System.out.println("[4].Update Attendance/Give Feedback ");
+        System.out.println("[5].Delete Booking ");
+        System.out.println("[6].View Sessions");
+        System.out.println("[7].View Reports ");
         System.out.println("[8].View Customers ");
         System.out.println("[9].View Bookings ");
         System.out.println("[10].Exit ");
@@ -43,8 +46,10 @@ public class PrintMain {
                     Bookings.editBooking();
                 } else if (inputNumber == 3) {//Cancel Bookings
                     Bookings.cancelBooking();
-                } else if (inputNumber == 4 || inputNumber == 5) {//Give Feedback and Attendance
+                } else if (inputNumber == 4 ) {//Give Feedback and Attendance
                     Feedback.updateAttendanceAndFeedback();
+                }else if (inputNumber == 5) {//Delete Bookings
+                    Bookings.deleteBooking();
                 } else if (inputNumber == 6) {//View Sessions
                     System.out.println("Which choice you like to view the session? ");
                     System.out.println("[11].View Sessions By Day ");
@@ -52,15 +57,12 @@ public class PrintMain {
 
                     System.out.println("Please enter the number ");
                     inputNumber = Integer.parseInt(console.next());
-
-                    if (inputNumber == 12) {
-                        System.out.println("Which session do you want to view? (zumba/yoga/spin/bodysculpt/all)");
-                        inputType = console.next().toLowerCase();
-                        Fitness_Lessons.readSessionFile(inputNumber, inputType);
-                    } else if (inputNumber == 11) {
-                        System.out.println("Which day you want to view? (saturday/sunday/both)");
-                        inputType = console.next().toLowerCase();
-                        Fitness_Lessons.readSessionFile(inputNumber, inputType);
+                    if(inputNumber == 11 || inputNumber == 12) {
+                        Fitness_Lessons.readSessionFile(inputNumber);
+                    }else
+                    {
+                        System.out.println("Error: Invalid input!");
+                        printMenu();
                     }
                 } else if (inputNumber == 7) {//View Reports
                     if (inputNumber == 7) {
@@ -73,12 +75,12 @@ public class PrintMain {
 
                         if (inputNumber == 13) {
                             System.out.println("Which month you want to view data? (1/2) ");
-                            inputType = console.next();
+                            inputType = Integer.parseInt(console.next());
                             Report.getNumOfCustomers(inputType);
                         }
                         if (inputNumber == 14) {
                             System.out.println("Which month you want to view data? (1/2) ");
-                            inputType = console.next();
+                            inputType = Integer.parseInt(console.next());
                             Report.calIncomePerLesson(inputType);
                         }
                     }
@@ -91,6 +93,7 @@ public class PrintMain {
                         Bookings.readBookingFile();
                     }
                 } else if (inputNumber == 10) {
+                    System.out.println("Thank You & Have a Great Day!");
                 } else {
                     System.out.println("Error: Invalid number");
                     printMenu();

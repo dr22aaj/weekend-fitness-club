@@ -19,20 +19,26 @@ public class Bookings {
     private static String day;
     private static String week;
     private static String bookingId;
+    private static String status;
 
-    static final String filePath= "textFiles\\bookings.txt";
+    static final String filePath= "C:\\textFiles\\bookings.txt";
+    static final String tempFile="C:\\textFiles\\tempnew.txt";
 
     //Constructor
-    public Bookings(String bookingId ,String customerNo, String customerName,String group, String day, String week){
+
+    public Bookings() {
+    }
+    public Bookings(String bookingId , String customerNo, String customerName, String group, String day, String week, String status){
         this.bookingId=bookingId;
         this.customerName=customerName;
         this.group=group;
         this.day=day;
         this.week=week;
         this.customerNo=customerNo;
+        this.status=status;
     }
     public static String getBookingData(){
-        return   bookingId +"," + customerNo +"," + customerName +"," + group +"," +day  +"," +week ;
+        return   bookingId +"," + customerNo +"," + customerName +"," + group +"," +day  +"," +week+"," +status ;
     }
 
     public static String getBookingDataN(){
@@ -42,20 +48,31 @@ public class Bookings {
     //view booking data
     public static void readBookingFile(){
         try {
-            FileReader reader = new FileReader(filePath);
-            int data = reader.read();
-            while (data != -1){
-                System.out.print((char)data);
-                data = reader.read();
+            boolean isValidPath = Common.validateFilePath(filePath);
+            if(isValidPath){
+                FileReader reader = new FileReader(filePath);
+                int data = reader.read();
+                while (data != -1){
+                    System.out.print((char)data);
+                    data = reader.read();
+                }
+                reader.close();
+                System.out.println();
+                System.out.println("Do you want to continue? (y/n) ");
+                String rst=console.next().toLowerCase();
+                if(rst.equals("y")){
+                    PrintMain.printMenu();
+                }
+                else {
+                    System.out.println("Thank You & Have a Great Day!");
+                }
+                reader.close();
             }
-            reader.close();
-            System.out.println();
-            System.out.println("Do you want to continue? (y/n) ");
-            String rst=console.next().toLowerCase();
-            if(rst.equals("y")){
+            else {
+                System.out.println("File path does not exist!");
                 PrintMain.printMenu();
             }
-
+        console.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -64,83 +81,116 @@ public class Bookings {
     }
     //save the booking data in booking text file
     public static void createBooking() {
-        bookingId = generateBookingNo();
-        System.out.println("Enter customer number :");
-        customerNo=console.next();
-        System.out.println("Enter customer name :");
-        customerName=console.next();
-        System.out.println("Enter the selected date (saturday/sunday) :");
-        day=console.next().toLowerCase();
-        if(day.equals("saturday")){
-            System.out.println("Enter the selected group (GP1, GP2) : ");
-            group=console.next().toLowerCase();
-        }else if(day.equals("sunday")){
-            System.out.println("Enter the selected group (GP3, GP4) : ");
-            group=console.next().toLowerCase();
-        }
-        else {
-            System.out.println("Entered day is invalid!");
-            createBooking();
-        }
-        System.out.println("Enter the selected week (1,2,3,4,5,6,7,8) :");
-        week=console.next();
-        if (!(Integer.parseInt(week) > 0 || Integer.parseInt(week) < 9)){
-            System.out.println("Entered week is invalid!");
-            createBooking();
-        }
-        //validate duplicate bookings (customer trying to make more than one booking for same session in group (week,group,customer no) )
-        boolean isDuplicateBooking = Common.validateDuplicateBookings(group,week,customerNo);
-        if(isDuplicateBooking){
-            System.out.println("You have already made the booking!");
-            System.out.println();
-            System.out.println("Do you need to add another booking? (y/n)");
-            String rst=console.next().toLowerCase();
-            if(rst.equals("y")){
+        try{
+            bookingId = generateBookingNo();
+            System.out.println("Enter customer number :");
+            customerNo=console.next().toUpperCase();
+            System.out.println("Enter customer name :");
+            customerName=console.next().toString();
+            System.out.println("Enter the selected date (1 - saturday / 2 - sunday) :");
+            int dayInt = Integer.parseInt(console.next());
+            if(dayInt == 1){
+                day = "saturday";
+            } else if (dayInt == 2) {
+                day = "sunday";
+            }else{
+                System.out.println("Error: Invalid input!");
                 createBooking();
             }
-            else PrintMain.printMenu();
-        }
-        else {
-            //validate number of customers per each lesson (week) is exceeded or not
-            boolean isExceeded = isExceedCusCount(week,group);
-            if(isExceeded){
-                System.out.println("Cannot create booking. Selected session is already full!");
-                System.out.println();
-                System.out.println("Do you need to add the booking again? (y/n)");
-                String rst = console.next().toLowerCase();
-                if (rst.equals("y")) {
-                    createBooking();
-                } else if (rst.equals("n")) {
-                    PrintMain.printMenu();
+            if(day.equals("saturday")){
+                System.out.println("Enter the selected group (GP1, GP2) : ");
+                group=console.next().toLowerCase();
+                if(!(group.equals("gp1")||group.equals("gp2"))){
+                    System.out.println("Entered group is invalid! ");
+                    Bookings.createBooking();
+                }
+            }else if(day.equals("sunday")){
+                System.out.println("Enter the selected group (GP3, GP4) : ");
+                group=console.next().toLowerCase();
+                if(!(group.equals("gp3")||group.equals("gp4"))){
+                    System.out.println("Entered group is invalid! ");
+                    Bookings.createBooking();
                 }
             }
             else {
-                try {
-                    FileWriter writer=new FileWriter(filePath,true);
-                    writer.append(Bookings.getBookingData());
-                    writer.append("\n");
-                    writer.close();
-                    System.out.println("Booking added successfully! Your booking number is: " + bookingId);
+                System.out.println("Entered day is invalid!");
+                createBooking();
+            }
+            System.out.println("Enter the selected week (1,2,3,4,5,6,7,8) :");
+            int weekInt = Integer.parseInt(console.next());
+            week=String.valueOf(weekInt).toString();
+
+            if (weekInt < 0 || weekInt > 8) {
+                System.out.println("Entered week is invalid!");
+                createBooking();
+            }
+
+            //validate duplicate bookings (customer trying to make more than one booking for same session in group (week,group,customer no) )
+            boolean isDuplicateBooking = Common.validateDuplicateBookings(group,week,customerNo);
+            if(isDuplicateBooking){
+                System.out.println("You have already made the booking!");
+                System.out.println();
+                System.out.println("Do you need to add another booking? (y/n)");
+                String rst=console.next().toLowerCase();
+                if(rst.equals("y")){
+                    createBooking();
+                }
+                else PrintMain.printMenu();
+            }
+            else {
+                //validate number of customers per each lesson (week) is exceeded or not
+                boolean isExceeded = isExceedCusCount(week,group);
+                if(isExceeded){
+                    System.out.println("Cannot create booking. Selected session is already full!");
                     System.out.println();
-                    System.out.println("Do you need to add another booking? (y/n)");
-                    String rst=console.next().toLowerCase();
-                    if(rst.equals("y")){
+                    System.out.println("Do you need to add the booking again? (y/n)");
+                    String rst = console.next().toLowerCase();
+                    if (rst.equals("y")) {
                         createBooking();
+                    } else if (rst.equals("n")) {
+                        PrintMain.printMenu();
                     }
-                    else PrintMain.printMenu();
-                } catch (IOException e) {
-                    System.out.println(e);
+                }
+                else {
+                    try {
+                        boolean isValidPath = Common.validateFilePath(filePath);
+                        status = "booked";
+                        if(isValidPath){
+                            FileWriter writer=new FileWriter(filePath,true);
+                            writer.append(Bookings.getBookingData());
+                            writer.append("\n");
+                            writer.close();
+                            System.out.println("Booking added successfully! Your booking number is: " + bookingId);
+                            System.out.println();
+                            System.out.println("Do you need to add another booking? (y/n)");
+                            String rst=console.next().toLowerCase();
+                            if(rst.equals("y")){
+                                createBooking();
+                            }
+                            else PrintMain.printMenu();
+                        }
+                        else {
+                            System.out.println("File path does not exist!");
+                            PrintMain.printMenu();
+                        }
+                    } catch (IOException e) {
+                        System.out.println(e);
+                    }
                 }
             }
+            // closing the scanner stream
+            console.close();
         }
-        // closing the scanner stream
-        console.close();
+        catch (NumberFormatException ex) {
+            System.out.println("Error: Input value is not a number");
+            System.out.println("------------------------------------");
+            createBooking();
+        }
     }
 
     //save the updated the in booking text file
     public static void editBooking(String editBookingId,String editGroupId,String editDay,String editWeek){
-        String tempFile="textFiles\\tempnew.txt";
-         File oldFile = new File(filePath);
+        File oldFile = new File(filePath);
         File newFile = new File(tempFile);
 
         boolean boolFound = false;
@@ -149,53 +199,61 @@ public class Bookings {
             BufferedWriter bw = new BufferedWriter(fw);
             PrintWriter pw = new PrintWriter(bw);
 
-            Scanner x = new Scanner(new File(filePath));
-            x.useDelimiter("[,\n]");
+            boolean isValidPath = Common.validateFilePath(filePath);
+            if(isValidPath){
+                Scanner x = new Scanner(new File(filePath));
+                x.useDelimiter("[,\n]");
 
-            while (x.hasNext()){
-                bookingId = x.next();
-                customerNo = x.next();
-                customerName = x.next();
-                group = x.next();
-                day = x.next();
-                week = x.next();
+                while (x.hasNext()){
+                    bookingId = x.next();
+                    customerNo = x.next();
+                    customerName = x.next();
+                    group = x.next();
+                    day = x.next();
+                    week = x.next();
+                    status = x.next();
 
-                if(bookingId.equals(editBookingId)){
-                    pw.print(editBookingId + "," + customerNo + "," + customerName + "," + editGroupId + "," + editDay+ "," + editWeek+ "\n");
-                    boolFound=true;
+                    if(bookingId.equals(editBookingId)){
+                        pw.print(editBookingId + "," + customerNo + "," + customerName + "," + editGroupId + "," + editDay+ "," + editWeek+ "," + "changed"+ "\n");
+                        boolFound=true;
 
+                    }
+                    else{
+                        pw.print(bookingId + "," + customerNo + "," + customerName + "," + group + "," + day+ "," + week+"," + status+ "\n");
+                    }
+                }
+
+                x.close();
+                pw.flush();
+                pw.close();
+                oldFile.delete();
+                File dump = new File(filePath);
+                newFile.renameTo(dump);
+
+                if(!boolFound){
+                    System.out.println("---Invalid booking Id---");
+                    System.out.println();
+                    System.out.println("Do you need to edit booking? (y/n)");
+                    String rst=console.next().toLowerCase();
+                    if(rst.equals("y")){
+                        editBooking();
+                    }
+                    else{
+                        PrintMain.printMenu();
+                    }
                 }
                 else{
-                    pw.print(bookingId + "," + customerNo + "," + customerName + "," + group + "," + day+ "," + week+ "\n");
-                }
-            }
-
-            x.close();
-            pw.flush();
-            pw.close();
-            oldFile.delete();
-            File dump = new File(filePath);
-            newFile.renameTo(dump);
-
-            if(!boolFound){
-                System.out.println("---Invalid booking Id---");
-                System.out.println();
-                System.out.println("Do you need to edit booking? (y/n)");
-                String rst=console.next().toLowerCase();
-                if(rst.equals("y")){
-                    editBooking();
-                }
-                else if(rst.equals("n")){
+                    System.out.println("Booking details updated successfully.");
+                    System.out.println("Booking Number: " + editBookingId );
+                    System.out.println();
                     PrintMain.printMenu();
                 }
             }
-            else{
-                System.out.println("Booking details updated successfully.");
-                System.out.println("Booking Number: " + editBookingId );
-                System.out.println();
+            else {
+                System.out.println("File path does not exist!");
                 PrintMain.printMenu();
             }
-
+            console.close();
         }catch (Exception e){
             System.out.println("---Error---");
         }
@@ -207,22 +265,40 @@ public class Bookings {
         try {
             System.out.println("Please enter booking id:  ");
             String editBookingId = console.next().toUpperCase();
-            System.out.println("Enter the selected date (saturday/sunday) :");
-            String editDay = console.next().toLowerCase();
+            System.out.println("Enter the selected date ( 1 - saturday/ 2 - sunday) :");
+            int dayInt = Integer.parseInt(console.next());
+            String editDay = null;
+            if(dayInt == 1){
+                editDay = "saturday";
+            } else if (dayInt == 2) {
+                editDay = "sunday";
+            }else{
+                System.out.println("Error: Invalid input!");
+                editBooking();
+            }
             if (editDay.equals("saturday")) {
                 System.out.println("Enter the selected group (GP1, GP2) : ");
                 editGroupId = console.next().toLowerCase();
+                if(!(editGroupId.equals("gp1")||editGroupId.equals("gp2"))){
+                    System.out.println("Entered group is invalid! ");
+                    Bookings.editBooking();
+                }
             } else if (editDay.equals("sunday")) {
                 System.out.println("Enter the selected group (GP3, GP4) : ");
                 editGroupId = console.next().toLowerCase();
+                if(!(editGroupId.equals("gp3")||editGroupId.equals("gp4"))){
+                    System.out.println("Entered group is invalid! ");
+                    Bookings.editBooking();
+                }
             } else {
                 System.out.println("Entered day is invalid!");
                 editBooking();
             }
             System.out.println("Enter the selected week (1,2,3,4,5,6,7,8) :");
-            String editWeek = console.next();
+            int editWeekInt = Integer.parseInt(console.next());
+            String editWeek = String.valueOf(editWeekInt).toString();
 
-            if (Integer.parseInt(editWeek) < 0 || Integer.parseInt(editWeek) > 8) {
+            if (editWeekInt < 0 || editWeekInt > 8) {
                 System.out.println("Invalid week!");
                 System.out.println();
                 editBooking();
@@ -247,8 +323,23 @@ public class Bookings {
                 String rst = console.next().toLowerCase();
                 if (rst.equals("y")) {
                     editBooking();
-                } else if (rst.equals("n")) {
+                } else {
                     PrintMain.printMenu();
+                }
+            }
+
+            //Validate if entered booking number is cancelled
+            boolean isCancelled = Common.isBookingNoCancelled(editBookingId);
+            if(isCancelled){
+                System.out.println("Entered booking number already cancelled!  ");
+                System.out.println("------------------------------------");
+                System.out.println();
+                System.out.println("Do you want to continue? (y/n) ");
+                String rst=console.next().toLowerCase();
+                if(rst.equals("y")){
+                    PrintMain.printMenu();
+                }else {
+                    System.out.println("Thank You & Have a Great Day!");
                 }
             }
 
@@ -261,7 +352,7 @@ public class Bookings {
                 String rst = console.next().toLowerCase();
                 if (rst.equals("y")) {
                     editBooking();
-                } else if (rst.equals("n")) {
+                } else{
                     PrintMain.printMenu();
                 }
             }
@@ -275,7 +366,7 @@ public class Bookings {
                 String rst = console.next().toLowerCase();
                 if (rst.equals("y")) {
                     editBooking();
-                } else if (rst.equals("n")) {
+                } else{
                     PrintMain.printMenu();
                 }
             }
@@ -283,17 +374,31 @@ public class Bookings {
             if(isExist && !isAttend && !isHaving && !isExceeded){
                 editBooking(editBookingId, editGroupId,editDay,editWeek);
            }
-
-        }
-        catch (Exception e){
+        console.close();
+        } catch (NumberFormatException ex) {
+            System.out.println("Error: Input value is not a number");
+            System.out.println("------------------------------------");
+            editBooking();
+        } catch (Exception e){
             System.out.println(e);
         }
     }
 
-    //delete the insert booking data from the booking text file
+    //cancel the insert booking data from the booking text file
     public static void cancelBooking(){
+        File oldFile = new File(filePath);
+        File newFile = new File(tempFile);
+
         System.out.println("Please enter booking number you need to cancel:  ");
         String cancelBookingId =console.next().toUpperCase();
+
+        //Validate entered booking number
+        boolean isExist = Common.isBookingNoAlreadyExist(cancelBookingId);
+        if(!isExist){
+            System.out.println("Booking number is invalid!");
+            System.out.println("");
+            PrintMain.printMenu();
+        }
 
         //validate customer already attended for booked session
         //allowed to cancel a booking before the booked lesson was attended.
@@ -304,54 +409,162 @@ public class Bookings {
             System.out.println("Do you need to cancel another booking? (y/n)");
             String rst=console.next().toLowerCase();
             if(rst.equals("y")){
-                createBooking();
+                cancelBooking();
             }
-            else if(rst.equals("n")){
+            else{
+                PrintMain.printMenu();
+            }
+        }
+        if((isExist) && (!isAttend))
+        {
+            boolean boolFound = false;
+            try {
+                FileWriter fw= new FileWriter(tempFile,true);
+                BufferedWriter bw = new BufferedWriter(fw);
+                PrintWriter pw = new PrintWriter(bw);
+
+                boolean isValidPath = Common.validateFilePath(filePath);
+                if(isValidPath){
+                    Scanner x = new Scanner(new File(filePath));
+                    x.useDelimiter("[,\n]");
+
+                    while (x.hasNext()){
+                        bookingId = x.next();
+                        customerNo = x.next();
+                        customerName = x.next();
+                        group = x.next();
+                        day = x.next();
+                        week = x.next();
+                        status = x.next();
+
+                        if(bookingId.equals(cancelBookingId)){
+                            pw.print(cancelBookingId + "," + customerNo + "," + customerName + "," + group + "," + day+ "," + week+ "," + "cancelled"+ "\n");
+                            boolFound=true;
+
+                        }
+                        else{
+                            pw.print(bookingId + "," + customerNo + "," + customerName + "," + group + "," + day+ "," + week+"," + status+ "\n");
+                        }
+                    }
+                    x.close();
+                    pw.flush();
+                    pw.close();
+                    oldFile.delete();
+                    File dump = new File(filePath);
+                    newFile.renameTo(dump);
+
+                    if(!boolFound){
+                        System.out.println("---Invalid booking Id---");
+                        System.out.println();
+                        System.out.println("Do you need to cancel booking? (y/n)");
+                        String rst=console.next().toLowerCase();
+                        if(rst.equals("y")){
+                            cancelBooking();
+                        }
+                        else{
+                            PrintMain.printMenu();
+                        }
+                    }
+                    else{
+                        System.out.println("Booking details cancelled successfully.");
+                        System.out.println("Booking Number: " + cancelBookingId );
+                        System.out.println();
+                        PrintMain.printMenu();
+                    }
+                }
+                else {
+                    System.out.println("File path does not exist!");
+                    PrintMain.printMenu();
+                }
+                console.close();
+            }catch (Exception e){
+                System.out.println("---Error---");
+            }
+        }
+
+    }
+
+    //delete the insert booking data from the booking text file
+    public static void deleteBooking(){
+        System.out.println("Please enter booking number you need to cancel:  ");
+        String cancelBookingId =console.next().toUpperCase();
+
+        //Validate entered booking number
+        boolean isExist = Common.isBookingNoAlreadyExist(cancelBookingId);
+        if(!isExist){
+            System.out.println("Booking number is invalid!");
+            System.out.println("");
+            PrintMain.printMenu();
+        }
+
+        //validate customer already attended for booked session
+        //allowed to cancel a booking before the booked lesson was attended.
+        boolean isAttend = Common.isValidateAttendance(cancelBookingId);
+        if (isAttend){
+            System.out.println("Cannot delete the entered booking number. Customer already attended!");
+            System.out.println();
+            System.out.println("Do you need to delete another booking? (y/n)");
+            String rst=console.next().toLowerCase();
+            if(rst.equals("y")){
+                PrintMain.printMenu();
+            }
+            else{
                 PrintMain.printMenu();
             }
         }
 
-        String tempFile="textFiles\\temp.txt";
-        File oldFile = new File(filePath);
-        File newFile = new File(tempFile);
-        //String Id; String customerNo; String customerName; String group; String day; String week;
+        if((!isAttend) && (isExist))
+        {
+            String tempFile="textFiles\\temp.txt";
+            File oldFile = new File(filePath);
+            File newFile = new File(tempFile);
 
-        try {
-            FileWriter fw = new FileWriter(tempFile, true);
-            BufferedWriter bw = new BufferedWriter(fw);
-            PrintWriter pw = new PrintWriter(bw);
+            try {
+                boolean isValidPath = Common.validateFilePath(filePath);
+                if(isValidPath){
+                    FileWriter fw = new FileWriter(tempFile, true);
+                    BufferedWriter bw = new BufferedWriter(fw);
+                    PrintWriter pw = new PrintWriter(bw);
 
-            Scanner x = new Scanner(new File(filePath));
-            x.useDelimiter("[,\n]");
+                    Scanner x = new Scanner(new File(filePath));
+                    x.useDelimiter("[,\n]");
 
-            while (x.hasNext()){
-                bookingId = x.next();
-                customerNo = x.next();
-                customerName = x.next();
-                group = x.next();
-                day = x.next();
-                week = x.next();
+                    while (x.hasNext()){
+                        bookingId = x.next();
+                        customerNo = x.next();
+                        customerName = x.next();
+                        group = x.next();
+                        day = x.next();
+                        week = x.next();
+                        status = x.next();
 
-                if(!bookingId.equals(cancelBookingId)){
-                    pw.print(bookingId + "," + customerNo + "," + customerName + "," + group + "," + day+ "," + week + "\n");
+                        if(!bookingId.equals(cancelBookingId)){
+                            pw.print(bookingId + "," + customerNo + "," + customerName + "," + group + "," + day+ "," + week +"," + status + "\n");
+                        }
+                    }
+                    x.close();
+                    pw.flush();
+                    pw.close();
+                    oldFile.delete();
+                    File dump = new File(filePath);
+                    newFile.renameTo(dump);
+
+                    System.out.println("Booking details deleted successfully.");
+                    System.out.println();
+                    PrintMain.printMenu();
                 }
+                else {
+                    System.out.println("File path does not exist!");
+                    PrintMain.printMenu();
+                }
+
+                // closing the scanner stream
+                console.close();
+            }catch (Exception e){
+                System.out.println("---Error---");
             }
-            x.close();
-            pw.flush();
-            pw.close();
-            oldFile.delete();
-            File dump = new File(filePath);
-            newFile.renameTo(dump);
-
-            System.out.println("Booking details cancelled successfully.");
-            System.out.println();
-            PrintMain.printMenu();
-
-        }catch (Exception e){
-            System.out.println("---Error---");
         }
-        // closing the scanner stream
-        console.close();
+
     }
 
     //Generate Booking No.
@@ -361,20 +574,30 @@ public class Bookings {
         String cusNo,cusName,group,day,week;
 
         try {
-            Scanner x = new Scanner(new File(filePath));
-            x.useDelimiter("[,\n]");
+            boolean isValidPath = Common.validateFilePath(filePath);
+            if(isValidPath) {
+                Scanner x = new Scanner(new File(filePath));
+                x.useDelimiter("[,\n]");
 
-            while (x.hasNext()) {
-                bookingId = x.next();
-                cusNo = x.next();
-                cusName = x.next();
-                group = x.next();
-                day = x.next();
-                week = x.next();
+                while (x.hasNext()) {
+                    bookingId = x.next();
+                    cusNo = x.next();
+                    cusName = x.next();
+                    group = x.next();
+                    day = x.next();
+                    week = x.next();
+                    status = x.next();
+                }
+                bookingId = bookingId.substring(2,5);
+                int newId = Integer.parseInt(bookingId)+1;
+                bookingNo = "BK0" + newId;
+
+                x.close();
             }
-            bookingId = bookingId.substring(2,5);
-            int newId = Integer.parseInt(bookingId)+1;
-            bookingNo = "BK0" + newId;
+            else {
+                System.out.println("File path does not exist!");
+                PrintMain.printMenu();
+            }
 
         }catch (Exception e){
             System.out.println("---Error---");
@@ -388,32 +611,40 @@ public class Bookings {
         boolean isExceed = false;
         int count= 0;
         try {
-            Scanner x = new Scanner(new File(filePath));
-            x.useDelimiter("[,\n]");
-            String Id;
-            String bookingNum, cusNo, cusName, groupNo, day, week;
+            boolean isValidPath = Common.validateFilePath(filePath);
+            if(isValidPath){
+                Scanner x = new Scanner(new File(filePath));
+                x.useDelimiter("[,\n]");
+                String Id;
+                String bookingNum, cusNo, cusName, groupNo, day, week;
 
-            while (x.hasNext()) {
-                bookingNum = x.next();
-                cusNo = x.next();
-                cusName = x.next();
-                groupNo = x.next();
-                day = x.next();
-                week = x.next();
+                while (x.hasNext()) {
+                    bookingNum = x.next();
+                    cusNo = x.next();
+                    cusName = x.next();
+                    groupNo = x.next();
+                    day = x.next();
+                    week = x.next();
+                    status = x.next();
 
-                if (chkWeek.equals(week) && chkGroup.equals(groupNo)) {
-                    count ++;
+                    if (chkWeek.equals(week) && chkGroup.equals(groupNo) && (!status.equals("cancelled"))) {
+                        count ++;
+                    }
                 }
+                if(count >= 5)
+                {
+                    isExceed = true;
+                }
+                else
+                {
+                    isExceed =false;
+                }
+                x.close();
             }
-            if(count >= 5)
-            {
-                isExceed = true;
+            else {
+                System.out.println("File path does not exist!");
+                PrintMain.printMenu();
             }
-            else
-            {
-                isExceed =false;
-            }
-            x.close();
         } catch (
                 IOException e) {
             System.out.println(e);
@@ -421,4 +652,57 @@ public class Bookings {
         return isExceed;
     }
 
+    //update the booking status
+    public static void updateBookingStatus(String bookingNo,String newStatus)
+    {
+        File oldFile = new File(filePath);
+        File newFile = new File(tempFile);
+
+        boolean boolFound = false;
+        try {
+            FileWriter fw= new FileWriter(tempFile,true);
+            BufferedWriter bw = new BufferedWriter(fw);
+            PrintWriter pw = new PrintWriter(bw);
+
+            boolean isValidPath = Common.validateFilePath(filePath);
+            if(isValidPath){
+                Scanner x = new Scanner(new File(filePath));
+                x.useDelimiter("[,\n]");
+
+                while (x.hasNext()){
+                    bookingId = x.next();
+                    customerNo = x.next();
+                    customerName = x.next();
+                    group = x.next();
+                    day = x.next();
+                    week = x.next();
+                    status = x.next();
+
+                    if(bookingId.equals(bookingNo)){
+                        pw.print(bookingNo + "," + customerNo + "," + customerName + "," + group + "," + day+ "," + week+ "," + newStatus+ "\n");
+                        boolFound=true;
+
+                    }
+                    else{
+                        pw.print(bookingId + "," + customerNo + "," + customerName + "," + group + "," + day+ "," + week+"," + status+ "\n");
+                    }
+                }
+
+                x.close();
+                pw.flush();
+                pw.close();
+                oldFile.delete();
+                File dump = new File(filePath);
+                newFile.renameTo(dump);
+
+            }
+            else {
+                System.out.println("File path does not exist!");
+                PrintMain.printMenu();
+            }
+
+        }catch (Exception e){
+            System.out.println("---Error---");
+        }
+    }
 }

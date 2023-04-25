@@ -5,6 +5,9 @@ Description: All the common validation related methods are handel
              under this class
 **/
 package com.coursework.wfc;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import java.io.*;
 import java.util.Scanner;
@@ -19,31 +22,40 @@ public class Common {
     private static String feedback;
     private static String attended;
     private static String rate;
+    private static String status;
 
-    static final String filepath = "textFiles\\bookings.txt";
-    static final String filepathA = "textFiles\\attendanceAndFeedback.txt";
+    static final String filepath = "C:\\textFiles\\bookings.txt";
+    static final String filepathA = "C:\\textFiles\\attendanceAndFeedback.txt";
 
     //Check whether booking number is already exist
     protected static boolean isBookingNoAlreadyExist(String bookingNo) {
         boolean isExist = false;
         try {
-            Scanner x = new Scanner(new File(filepath));
-            x.useDelimiter("[,\n]");
+            boolean isValidPath = Common.validateFilePath(filepath);
+            if(isValidPath){
+                Scanner x = new Scanner(new File(filepath));
+                x.useDelimiter("[,\n]");
 
-            while (x.hasNext()) {
-                bookingId = x.next();
-                customerNo = x.next();
-                customerName = x.next();
-                group = x.next();
-                day = x.next();
-                week = x.next();
+                while (x.hasNext()) {
+                    bookingId = x.next();
+                    customerNo = x.next();
+                    customerName = x.next();
+                    group = x.next();
+                    day = x.next();
+                    week = x.next();
+                    status = x.next();
 
-                if (bookingId.equals(bookingNo)) {
-                    isExist = true;
-                    break;
+                    if (bookingId.equals(bookingNo)) {
+                        isExist = true;
+                        break;
+                    }
                 }
+                x.close();
             }
-            x.close();
+            else {
+                System.out.println("File path does not exist!");
+                PrintMain.printMenu();
+            }
         } catch (
                 IOException e) {
             System.out.println(e);
@@ -56,26 +68,34 @@ public class Common {
     protected static boolean isValidateAttendance(String bookingNo) {
         boolean alreadyAttend = false;
         try {
-            Scanner x = new Scanner(new File(filepathA));
-            x.useDelimiter("[,\n]");
-            String Id = null,isAttend = null,feedback, session = null;
-            String rating;
+            boolean isValidPath = Common.validateFilePath(filepath);
+            if(isValidPath){
+                Scanner x = new Scanner(new File(filepathA));
+                x.useDelimiter("[,\n]");
+                String Id = null,isAttend = null,feedback, session = null;
+                String rating;
 
-            while (x.hasNext()) {
-                Id = x.next();
-                customerName = x.next();
-                group = x.next();
-                session = x.next();
-                isAttend = x.next();
-                feedback = x.next();
-                rating = x.next();
+                while (x.hasNext()) {
+                    Id = x.next();
+                    customerName = x.next();
+                    group = x.next();
+                    day =x.next();
+                    session = x.next();
+                    isAttend = x.next();
+                    feedback = x.next();
+                    rating = x.next();
 
-                if (Id.equals(bookingNo)) {
-                    alreadyAttend = true;
-                    break;
+                    if (Id.equals(bookingNo)) {
+                        alreadyAttend = true;
+                        break;
+                    }
                 }
+                x.close();
             }
-            x.close();
+            else {
+                System.out.println("File path does not exist!");
+                PrintMain.printMenu();
+            }
         } catch (
                 IOException e) {
             System.out.println(e);
@@ -89,27 +109,36 @@ public class Common {
     protected static boolean validateDuplicateBookings(String groupNo, String session, String cusNo){
         boolean isDuplicate = false;
         try {
-            Scanner x = new Scanner(new File(filepath));
-            x.useDelimiter("[,\n]");
-            String Id;
+            boolean isValidPath = Common.validateFilePath(filepath);
+            if(isValidPath){
+                Scanner x = new Scanner(new File(filepath));
+                x.useDelimiter("[,\n]");
+                String Id;
 
-            while (x.hasNext()) {
-                bookingId = x.next();
-                customerNo = x.next();
-                customerName = x.next();
-                group = x.next();
-                day = x.next();
-                week = x.next();
+                while (x.hasNext()) {
+                    bookingId = x.next();
+                    customerNo = x.next();
+                    customerName = x.next();
+                    group = x.next();
+                    day = x.next();
+                    week = x.next();
+                    status = x.next();
 
-                if (customerNo.equals(cusNo) && group.equals(groupNo) && week.equals(session)) {
-                    isDuplicate = true;
-                    break;
+                    if (customerNo.equals(cusNo) && group.equals(groupNo) && week.equals(session) && (status.equals("booked") || status.equals("attended"))) {
+                        isDuplicate = true;
+                        break;
+                    }
+                    else {
+                        isDuplicate = false;
+                    }
                 }
-                else {
-                    isDuplicate = false;
-                }
+                x.close();
             }
-            x.close();
+            else {
+                System.out.println("File path does not exist!");
+                PrintMain.printMenu();
+            }
+
         } catch (
                 IOException e) {
             System.out.println(e);
@@ -121,24 +150,33 @@ public class Common {
     protected static String getCustomerNo(String bookingNo){
         String cusNo="";
         try {
-            Scanner x = new Scanner(new File(filepath)); //read data from file
-            x.useDelimiter("[,\n]");
-            String Id;
+            boolean isValidPath = Common.validateFilePath(filepath);
+            if(isValidPath){
+                Scanner x = new Scanner(new File(filepath)); //read data from file
+                x.useDelimiter("[,\n]");
+                String Id;
 
-            while (x.hasNext()) {
-                bookingId = x.next();
-                customerNo = x.next();
-                customerName = x.next();
-                group = x.next();
-                day = x.next();
-                week = x.next();
+                while (x.hasNext()) {
+                    bookingId = x.next();
+                    customerNo = x.next();
+                    customerName = x.next();
+                    group = x.next();
+                    day = x.next();
+                    week = x.next();
+                    status = x.next();
 
-                if (bookingId.equals(bookingNo.toUpperCase())) { // check the booking number is existing in data file
-                    cusNo = customerNo;
-                    break;
+                    if (bookingId.equals(bookingNo.toUpperCase())) { // check the booking number is existing in data file
+                        cusNo = customerNo;
+                        break;
+                    }
                 }
+                x.close(); //close the scanner
             }
-            x.close(); //close the scanner
+            else {
+                System.out.println("File path does not exist!");
+                PrintMain.printMenu();
+            }
+
         } catch (
                 IOException e) {
             System.out.println(e);
@@ -146,4 +184,55 @@ public class Common {
         return cusNo;
     }
 
+    //Validate text file path is already exist
+    protected static boolean validateFilePath(String filepath){
+        boolean isValidFilePath = false;
+        Path fPath = Paths.get(filepath);
+        if(Files.exists(fPath)){
+            isValidFilePath=true;
+        }
+        else {
+            isValidFilePath=false;
+        }
+        return isValidFilePath;
+    }
+
+    protected static boolean isBookingNoCancelled(String bookingNo){
+        boolean isCancelled = false;
+        String chkStatus = "cancelled";
+        try {
+            boolean isValidPath = Common.validateFilePath(filepath);
+            if(isValidPath){
+                Scanner x = new Scanner(new File(filepath)); //read data from file
+                x.useDelimiter("[,\n]");
+                String Id;
+
+                while (x.hasNext()) {
+                    bookingId = x.next();
+                    customerNo = x.next();
+                    customerName = x.next();
+                    group = x.next();
+                    day = x.next();
+                    week = x.next();
+                    status = x.next();
+
+                    if (bookingId.equals(bookingNo.toUpperCase())) { // check the booking number is existing in data file
+                        chkStatus = status;
+                        isCancelled =true;
+                        break;
+                    }
+                }
+                x.close(); //close the scanner
+            }
+            else {
+                System.out.println("File path does not exist!");
+                PrintMain.printMenu();
+            }
+
+        } catch (
+                IOException e) {
+            System.out.println(e);
+        }
+        return  isCancelled;
+    }
 }
